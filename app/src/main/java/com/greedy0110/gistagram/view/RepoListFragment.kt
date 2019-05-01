@@ -32,6 +32,11 @@ class RepoListFragment : Fragment(), RepoListView {
         return inflater.inflate(R.layout.fragment_repo_list, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unbind()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

@@ -6,14 +6,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.greedy0110.gistagram.entity.User
 import com.greedy0110.gistagram.view.RepoListFragment
 import com.greedy0110.gistagram.view.UserListFragment
+import com.greedy0110.gistagram.view.UserListKind
 
 class UserDetailViewPagerAdapter(fm: FragmentManager, private val user: User): FragmentStatePagerAdapter(fm) {
     // TODO how can i pass "user object" into these fragments?
     override fun getItem(position: Int): Fragment? {
         return when(position) {
             0 -> RepoListFragment().apply { this.user = this@UserDetailViewPagerAdapter.user }
-            1 -> UserListFragment().apply { this.user = this@UserDetailViewPagerAdapter.user }
-            2 -> UserListFragment().apply { this.user = this@UserDetailViewPagerAdapter.user }
+            1 -> UserListFragment().apply { this.user = this@UserDetailViewPagerAdapter.user; this.kind = UserListKind.Follower}
+            2 -> UserListFragment().apply { this.user = this@UserDetailViewPagerAdapter.user; this.kind = UserListKind.Following }
             else -> null
         }
     }

@@ -3,7 +3,9 @@ package com.greedy0110.gistagram
 import android.app.Application
 import com.greedy0110.gistagram.data.GithubDataSource
 import com.greedy0110.gistagram.data.GithubRepository
+import com.greedy0110.gistagram.data.remote.GithubClient
 import com.greedy0110.gistagram.data.source.GithubDemoSource
+import com.greedy0110.gistagram.data.source.GithubRemoteSource
 import com.greedy0110.gistagram.entity.User
 import com.greedy0110.gistagram.presenter.MainPresenter
 import com.greedy0110.gistagram.presenter.RepoListPresenter
@@ -26,13 +28,15 @@ class GistagramApp: Application(){
 
 val gistagramDemoModule = module {
     // presenter
-    factory { (kind: UserListKind) -> UserListPresenter(get(), kind) }
+    factory { UserListPresenter(get()) }
     factory { RepoListPresenter(get()) }
     factory { MainPresenter(get()) }
 
     // data repository
+    single { GithubClient() }
     single { GithubRepository(get()) }
 
     // data source
-    single { GithubDemoSource() as GithubDataSource }
+    single { GithubRemoteSource(get()) as GithubDataSource }
+//    single { GithubDemoSource() as GithubDataSource }
 }

@@ -19,8 +19,9 @@ import org.koin.core.parameter.parametersOf
 class UserListFragment : Fragment(), UserListView {
 
     // TODO
-    private val presenter: UserListPresenter by inject{ parametersOf(UserListKind.Following)}
+    private val presenter: UserListPresenter by inject()
     lateinit var user: User
+    lateinit var kind: UserListKind
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,12 +31,17 @@ class UserListFragment : Fragment(), UserListView {
         return inflater.inflate(R.layout.fragment_user_list, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unbind()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         presenter.bind(this)
-        // TODO here is the place where user object is passed
-        presenter.setUser(user)
+        // TODO here is the place where user object is passed (using ViewModel? + LiveData?)
+        presenter.setUser(user, kind)
     }
 
     override fun setUserList(userList: List<User>) {

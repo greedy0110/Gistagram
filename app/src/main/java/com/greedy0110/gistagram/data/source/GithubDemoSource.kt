@@ -3,30 +3,20 @@ package com.greedy0110.gistagram.data.source
 import com.greedy0110.gistagram.data.GithubDataSource
 import com.greedy0110.gistagram.entity.Repo
 import com.greedy0110.gistagram.entity.User
+import io.reactivex.Single
 
 /*
 * demo data
 * */
 class GithubDemoSource(): GithubDataSource {
-    override fun getCurrentUser(): User {
-        return cat
-    }
-
-    override fun getRepoList(user: User): List<Repo> {
-        return listOf(a2f, pm)
-    }
-
-    override fun getFollowersList(user: User): List<User> {
-        return listOf(greedy, cat, han)
-    }
-
-    override fun getFollowingList(user: User): List<User> {
-        return listOf(cat, han)
-    }
+    override fun getCurrentUser(): Single<User> = Single.just(greedy)
+    override fun getRepoList(user: User): Single<List<Repo>> = Single.just(listOf(a2f, pm))
+    override fun getFollowersList(user: User): Single<List<User>> = Single.just(listOf(greedy, cat, han))
+    override fun getFollowingList(user: User): Single<List<User>> = Single.just(listOf(cat, han))
 
     val greedy = User(
         name = "seungmin shin",
-        nickname = "greedy0110",
+        login = "greedy0110",
         url = "https://github.com/users/greedy0110",
         avatar_url = "https://avatars3.githubusercontent.com/u/16049092?v=4",
         blog = "http://greedy0110.tistory.com/",
@@ -37,7 +27,7 @@ class GithubDemoSource(): GithubDataSource {
 
     val cat = User(
         name = "catSirup",
-        nickname = "catSirup",
+        login = "catSirup",
         url = "https://github.com/users/catSirup",
         avatar_url = "https://avatars2.githubusercontent.com/u/19964567?v=4",
         blog = "https://catsirup.github.io",
@@ -48,7 +38,7 @@ class GithubDemoSource(): GithubDataSource {
 
     val han = User(
         name = "HanJungwoo1102",
-        nickname = "Han",
+        login = "Han",
         url = "https://github.com/users/HanJungwoo1102",
         avatar_url = "https://avatars1.githubusercontent.com/u/38420556?v=4",
         blog = "https://hanjungwoo1102.github.io/",

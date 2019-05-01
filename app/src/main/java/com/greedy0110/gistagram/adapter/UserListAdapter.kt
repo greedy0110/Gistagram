@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.entity.User
-import kotlinx.android.synthetic.main.rv_item_user.view.*
 
 class UserListAdapter(private val ctx: Context, var data: List<User>): RecyclerView.Adapter<UserListAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -30,7 +28,7 @@ class UserListAdapter(private val ctx: Context, var data: List<User>): RecyclerV
                 .load(d.avatar_url)
                 .into(img_avatar)
             txt_name.text = d.name
-            txt_nickname.text = d.nickname
+            txt_nickname.text = d.login
             txt_bio.text = d.bio
             // TODO add follow, unfollow feature in btn_follow
         }

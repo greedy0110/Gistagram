@@ -2,7 +2,7 @@ package com.greedy0110.gistagram.entity
 
 data class User(
     var name: String,
-    var nickname: String,
+    var login: String,
     var url: String,
     var avatar_url: String = "",
     var blog: String = "",
