@@ -45,6 +45,8 @@ dependencies {
     implementation "org.koin:koin-java:$koin_version"
     // Koin for Android
     implementation "org.koin:koin-android:$koin_version"
+    // or ViewModel for AndroidX
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     // https://github.com/ReactiveX/RxAndroid
     def rxand_version = '2.1.1'

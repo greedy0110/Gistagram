@@ -19,7 +19,7 @@ finally, I have few friends but I want to many friends in my github account, so 
 
 1. User
     - name: String
-    - nickname: String
+    - login: String
     - url: String
     - avatar_url: String
     - blog: String
@@ -34,7 +34,7 @@ finally, I have few friends but I want to many friends in my github account, so 
     - description: String
     - url: String
 
-## Structure (MVP)
+## Structure (MVVM)
 
 ### Domain Layer
 - entity
@@ -61,4 +61,4 @@ finally, I have few friends but I want to many friends in my github account, so 
         - getFollowingList(user)
         - getFollowersList(user)
 
-### App Layer (View + Presenter)
+### App Layer (View + ViewModel)

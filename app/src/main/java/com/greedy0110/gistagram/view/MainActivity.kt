@@ -2,35 +2,31 @@ package com.greedy0110.gistagram.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.UserDetailViewPagerAdapter
 import com.greedy0110.gistagram.entity.User
-import com.greedy0110.gistagram.presenter.MainPresenter
+import com.greedy0110.gistagram.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity() {
 
-    private val presenter: MainPresenter by inject()
+    // *where is the best place, viewModel place in? presenter? but viewModel has android dependency, view? but viewModel has it's own data.*
+    // so i will take mvvm pattern!
+    private val userViewModel: UserViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.bind(this)
-        presenter.onCreate()
+        userViewModel.user.observe(this, Observer {
+            setUserInfo(it)
+        })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unbind()
-    }
-
-    override fun setUserInfo(user: User) {
-        Log.d("seungmin" , "first user : $user")
-
+    private fun setUserInfo(user: User) {
         Glide.with(this)
             .load(user.avatar_url)
             .into(img_main_userinfo_avatar)
@@ -38,7 +34,7 @@ class MainActivity : AppCompatActivity(), MainView {
         txt_main_userinfo_nickname.text = user.login
         txt_main_userinfo_bio.text = user.bio
 
-        // TODO draw fragment matched user
+        // draw fragment matched user
         vp_main_userdetail.adapter = UserDetailViewPagerAdapter(supportFragmentManager, user)
         tl_main_userdetail.setupWithViewPager(vp_main_userdetail)
     }

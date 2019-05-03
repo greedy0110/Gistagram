@@ -6,23 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.RepoListAdapter
 import com.greedy0110.gistagram.entity.Repo
-import com.greedy0110.gistagram.entity.User
-import com.greedy0110.gistagram.presenter.RepoListPresenter
+import com.greedy0110.gistagram.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_repo_list.*
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.ParametersDefinition
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class RepoListFragment : Fragment(), RepoListView {
+class RepoListFragment : Fragment() {
 
-    private val presenter: RepoListPresenter by inject()
-    lateinit var user: User
+    private val userViewModel: UserViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,21 +28,15 @@ class RepoListFragment : Fragment(), RepoListView {
         return inflater.inflate(R.layout.fragment_repo_list, container, false)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unbind()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter.bind(this)
-
-        // TODO here is the place where user object is passed
-        presenter.setUser(user)
+        userViewModel.repoList.observe(this, Observer {
+            setRepoList(it)
+        })
     }
 
-    override fun setRepoList(repoList: List<Repo>) {
+    private fun setRepoList(repoList: List<Repo>) {
         rv_repo_list.adapter = RepoListAdapter(activity!!, repoList)
         rv_repo_list.layoutManager = LinearLayoutManager(activity!!)
     }
