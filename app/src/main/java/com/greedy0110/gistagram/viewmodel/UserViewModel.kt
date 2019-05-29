@@ -8,6 +8,7 @@ import com.greedy0110.gistagram.entity.Repo
 import com.greedy0110.gistagram.entity.User
 import io.reactivex.functions.Consumer
 
+// LiveData to Observable? LiveData Testing?
 class UserViewModel(private val repository: GithubRepository) : BaseViewModel() {
     private val _user = MutableLiveData<User>()
     private val _repoList = MutableLiveData<List<Repo>>()
