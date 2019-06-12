@@ -1,4 +1,4 @@
-package com.greedy0110.gistagram.viewmodel
+package com.greedy0110.gistagram.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable

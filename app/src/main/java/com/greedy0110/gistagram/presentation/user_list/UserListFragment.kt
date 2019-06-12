@@ -1,4 +1,4 @@
-package com.greedy0110.gistagram.view
+package com.greedy0110.gistagram.presentation.user_list
 
 
 import android.os.Bundle
@@ -13,7 +13,7 @@ import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.UserListAdapter
 import com.greedy0110.gistagram.entity.User
 import com.greedy0110.gistagram.ext.UserListKind
-import com.greedy0110.gistagram.viewmodel.UserViewModel
+import com.greedy0110.gistagram.presentation.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -33,13 +33,13 @@ class UserListFragment(private val kind: UserListKind) : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         when(kind) {
-            UserListKind.Follower -> userViewModel.followerList.observe(this, Observer {
+            UserListKind.Follower -> userViewModel.followerList.subscribe {
                 setUserList(it)
-            })
+            }
 
-            UserListKind.Following -> userViewModel.followingList.observe(this, Observer {
+            UserListKind.Following -> userViewModel.followingList.subscribe {
                 setUserList(it)
-            })
+            }
         }
     }
 

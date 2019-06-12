@@ -1,4 +1,4 @@
-package com.greedy0110.gistagram.view
+package com.greedy0110.gistagram.presentation.repo_list
 
 
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.RepoListAdapter
 import com.greedy0110.gistagram.entity.Repo
-import com.greedy0110.gistagram.viewmodel.UserViewModel
+import com.greedy0110.gistagram.presentation.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_repo_list.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -31,9 +31,9 @@ class RepoListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        userViewModel.repoList.observe(this, Observer {
+        userViewModel.repoList.subscribe {
             setRepoList(it)
-        })
+        }
     }
 
     private fun setRepoList(repoList: List<Repo>) {

@@ -1,4 +1,4 @@
-package com.greedy0110.gistagram.view
+package com.greedy0110.gistagram.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.UserDetailViewPagerAdapter
 import com.greedy0110.gistagram.entity.User
-import com.greedy0110.gistagram.viewmodel.UserViewModel
+import com.greedy0110.gistagram.presentation.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        userViewModel.user.observe(this, Observer {
+        userViewModel.user.subscribe {
             setUserInfo(it)
-        })
+        }
     }
 
     private fun setUserInfo(user: User) {
