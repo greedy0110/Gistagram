@@ -13,13 +13,15 @@ import com.greedy0110.gistagram.R
 import com.greedy0110.gistagram.adapter.UserListAdapter
 import com.greedy0110.gistagram.entity.User
 import com.greedy0110.gistagram.ext.UserListKind
+import com.greedy0110.gistagram.presentation.BaseFragment
 import com.greedy0110.gistagram.presentation.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class UserListFragment(private val kind: UserListKind) : Fragment() {
+class UserListFragment(private val kind: UserListKind) : BaseFragment() {
 
     private val userViewModel: UserViewModel by sharedViewModel()
+    private lateinit var adapter: UserListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,19 +34,20 @@ class UserListFragment(private val kind: UserListKind) : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        adapter = UserListAdapter(activity!!, listOf())
+        rv_user_list.adapter = adapter
+        rv_user_list.layoutManager = LinearLayoutManager(activity!!)
+
         when(kind) {
             UserListKind.Follower -> userViewModel.followerList.subscribe {
-                setUserList(it)
-            }
+                adapter.data = it
+                adapter.notifyDataSetChanged()
+            }.apply { addDisposable(this) }
 
             UserListKind.Following -> userViewModel.followingList.subscribe {
-                setUserList(it)
-            }
+                adapter.data = it
+                adapter.notifyDataSetChanged()
+            }.apply { addDisposable(this) }
         }
-    }
-
-    private fun setUserList(userList: List<User>) {
-        rv_user_list.adapter = UserListAdapter(activity!!, userList)
-        rv_user_list.layoutManager = LinearLayoutManager(activity!!)
     }
 }

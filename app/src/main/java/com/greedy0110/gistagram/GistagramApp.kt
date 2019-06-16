@@ -7,6 +7,7 @@ import com.greedy0110.gistagram.data.GithubDataSource
 import com.greedy0110.gistagram.data.GithubRepository
 import com.greedy0110.gistagram.data.remote.GithubClient
 import com.greedy0110.gistagram.data.source.GithubDemoSource
+import com.greedy0110.gistagram.data.source.GithubRemoteSource
 import com.greedy0110.gistagram.presentation.viewmodel.UserViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -33,7 +34,7 @@ val gistagramDemoModule = module {
     single { GithubRepository(get(), get()) }
 
     // data source
-//    single { GithubRemoteSource(get()) as GithubDataSource }
-    single { GithubDemoSource() as GithubDataSource }
+    single { GithubRemoteSource(get()) as GithubDataSource }
+//    single { GithubDemoSource() as GithubDataSource }
     factory { GistagramAndroidScheduler() as GistagramScheduler }
 }

@@ -6,15 +6,14 @@ import com.greedy0110.gistagram.data.GithubRepository
 import com.greedy0110.gistagram.entity.Repo
 import com.greedy0110.gistagram.entity.User
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 // LiveData to Observable? LiveData Testing?
 class UserViewModel(private val repository: GithubRepository) : BaseViewModel() {
-    private val _user = PublishSubject.create<User>() // 내부적으로는 next 로 값을 넘기는 것 가능
-    private val _repoList = PublishSubject.create<List<Repo>>()
-    private val _followerList = PublishSubject.create<List<User>>()
-    private val _followingList = PublishSubject.create<List<User>>()
+    private val _user = BehaviorSubject.create<User>() // 내부적으로는 next 로 값을 넘기는 것 가능
+    private val _repoList = BehaviorSubject.create<List<Repo>>()
+    private val _followerList = BehaviorSubject.create<List<User>>()
+    private val _followingList = BehaviorSubject.create<List<User>>()
 
     val user: Observable<User> = _user // 외부적으로는 구독으로 값을 받는 것만 가능
     val repoList: Observable<List<Repo>> = _repoList

@@ -15,61 +15,16 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import java.lang.reflect.Type
 
+// TODO remote 코드를 분리하자.
 class GithubClient {
     private val BASE_URL = "https://api.github.com"
 
-    object RepoDeserializer: JsonDeserializer<Repo> {
-        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Repo {
-            val jsonObject = json?.asJsonObject
-            Log.d("seungmin repo", json?.toString())
-
-            val name = jsonObject?.jsonNullSafeGet("name")?.asString
-            val full_name = jsonObject?.jsonNullSafeGet("full_name")?.asString
-            val url = jsonObject?.jsonNullSafeGet("html_url")?.asString
-            val desc = jsonObject?.jsonNullSafeGet("description")?.asString
-
-            return Repo(
-                name = name?:"", full_name = full_name?:"",url = url?:"", description = desc?:""
-            )
-        }
-
-
-    }
-
-    object UserDeserializer: JsonDeserializer<User> {
-        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): User {
-            val jsonObject = json?.asJsonObject
-            Log.d("seungmin", "user : ${json.toString()}")
-
-            val login = jsonObject?.jsonNullSafeGet("login")?.asString
-            val name = jsonObject?.jsonNullSafeGet("name")?.asString
-            val url = jsonObject?.jsonNullSafeGet("html_url")?.asString
-            val avatar_url = jsonObject?.jsonNullSafeGet("avatar_url")?.asString
-            val blog = jsonObject?.jsonNullSafeGet("blog")?.asString
-            val location = jsonObject?.jsonNullSafeGet("location")?.asString
-            val email = jsonObject?.jsonNullSafeGet("email")?.asString
-            val bio = jsonObject?.jsonNullSafeGet("bio")?.asString
-            val followers = jsonObject?.jsonNullSafeGet("followers")?.asInt
-            val following = jsonObject?.jsonNullSafeGet("following")?.asInt
-
-            return User(
-                login = login?:"", name = name?:"", url = url?:"" ,avatar_url = avatar_url?:"" ,
-                blog = blog?:"" , location = location?:"" , email = email?:"" , bio = bio?:"" ,
-                following = following?:0 , followers = followers?:0
-            )
-        }
-    }
-
     fun getApi(): GithubApi{
-        val gson = GsonBuilder()
-            .registerTypeAdapter(Repo::class.java, RepoDeserializer)
-            .registerTypeAdapter(User::class.java, UserDeserializer)
-            .create()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(OkHttpClient())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GithubApi::class.java)
     }
